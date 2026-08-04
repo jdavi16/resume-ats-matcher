@@ -10,7 +10,8 @@ import {
   Divider,
   Stack,
   Badge,
-  Autocomplete
+  Autocomplete,
+  Chip
 } from '@mantine/core'
 import { IconArrowRight, IconSearch } from '@tabler/icons-react'
 
@@ -32,6 +33,7 @@ function JobProfile() {
   const theme = useMantineTheme()
 
   const [historyOptions, setHistoryOptions] = useState<string[]>([])
+  const [checkedKeywords, setCheckedKeywords] = useState<string[]>([])
   function getScoreColor(incomingScore: any): string {
 
     const score = Number(incomingScore)
@@ -87,9 +89,8 @@ function JobProfile() {
 
       const result: ScoutData = await response.json()
       setData(result)
-
       setSearch('')
-
+      setCheckedKeywords([])
       setHistoryOptions((prev) => {
         if(!prev.includes(result.jobTitle)) {
           return [...prev, result.jobTitle]
@@ -194,7 +195,24 @@ function JobProfile() {
             <Badge size='xl' color={getScoreColor(data.compatibilityScore)}>Compatability: {data.compatibilityScore}%</Badge>
             <Badge size='xl'>{data.experienceRequired} years</Badge>
             <Badge size='xl' color={getScoreColor(data.atsPassProbability)}>ATS: {data.atsPassProbability}%</Badge>
-            <Badge size='xl'>{data.missingKeywords}</Badge>
+            <Stack gap='xs' align='center' style={{margin: '15px 0', width: '100%'}}>
+              <Badge size='lg' variant='light' color='orange'>Missing Keywords</Badge>
+                <Group justify='center' gap='xs'>
+                  {data.missingKeywords.split(',').map((keyword, index) => {
+                    const trimmedKeyword = keyword.trim();
+                    const isChecked = checkedKeywords.includes(trimmedKeyword);
+
+                    return(
+                      <Chip key={index} checked={isChecked} variant='filled'
+                      color={isChecked ? "green" : "red"}
+                      size='md' onChange={() => {
+                        setCheckedKeywords((prev) => prev.includes(trimmedKeyword) ? prev.filter((item) => item !== trimmedKeyword) : [...prev, trimmedKeyword])
+                      }}
+                      >{trimmedKeyword}</Chip>
+                    )
+                  })}
+                </Group>
+            </Stack>
           </Group>
           <Divider />
 
