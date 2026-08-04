@@ -1,0 +1,51 @@
+:root {
+  --accent-hover: oklch(55.66% 0.2369 277.02);
+  --accent: #7950f2;
+  --accent2: #845ef7;
+  --link-active: rgba(135, 96, 252, 0.356);
+  --font-family:
+    -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --spacing-xs: 0.625rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.25rem;
+  --spacing-xl: 2rem;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 2rem;
+}
+
+html[data-theme='light'] {
+  --bg: #ffffff;
+  --form: canvas;
+  --button: oklch(98.42% 0.0034 247.86);
+  --button-hover: oklch(12% 9.5% 264 / 5%);
+  --icon-fill: oklch(12% 5% 264 / 90%);
+  --icon-fill-hover: oklch(33.68% 0.02 264);
+  --text: oklch(12% 5% 264 / 90%);
+  --text-hover: oklch(33.68% 0.02 264);
+  --size: 2rem;
+  --border: 1px solid oklch(12% 9% 264 / 8%);
+  --borderColor: oklch(12% 9% 264 / 8%);
+}
+
+html[data-theme='dark'] {
+  --text: #ced4da;
+  --text-hover: #ffffff;
+  --icon-fill: oklch(95% 2% 264 / 85%);
+  --icon-fill-hover: oklch(95% 2% 264 / 100%);
+  --bg: canvas;
+  --form: #1f1f1f;
+  --border: 1px solid #3b3b3b;
+  --link-hover: #3b3b3b;
+  --borderColor: #3b3b3b;
+  --borderHover: oklch(38.68% 0.012000000000000002 264 / 80%);
+}

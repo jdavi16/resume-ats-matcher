@@ -22,3 +22,21 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# JDK Files
+**/oracleJdk-26/
+**/*Jdk*/
+
+# React Files
+**/node_modules/
+**/dist/
+**/build/
+
+# Python
+**/.env
+**/*.env
+.env
+*.env
+*.log
+**/ai-service/.venv/
+**/ai-service/__pycache__/
