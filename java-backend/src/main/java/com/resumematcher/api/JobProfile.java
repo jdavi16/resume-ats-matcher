@@ -34,6 +34,9 @@ public class JobProfile {
     @Column(name = "optimization_advice", length = 1000)
     private String optimizationAdvice;
 
+    @Column (name = "resume_text", columnDefinition = "TEXT")
+    private String resumeText;// Allows DB to hold unlimited string characters
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -78,4 +81,8 @@ public class JobProfile {
     public String getOptimizationAdvice(){return optimizationAdvice;}
 
     public void setOptimizationAdvice(String optimizationAdvice){this.optimizationAdvice=optimizationAdvice;}
+
+    public String getResumeText(){return resumeText;}
+
+    public void setResumeText(String resumeText){this.resumeText = resumeText;}
 }

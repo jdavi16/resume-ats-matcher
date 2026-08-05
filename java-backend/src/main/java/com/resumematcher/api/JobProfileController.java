@@ -7,11 +7,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,8 +25,18 @@ public class JobProfileController {
         this.jobProfileRepository = jobProfileRepository;
     }
 
-    @GetMapping("/search")
-    public JobProfile searchJobProfile(@RequestParam String jobTitle) {
+    @PostMapping("/search")
+    public JobProfile searchJobProfile(@RequestBody JobProfile incomingPayload) {
+
+        // Extract out of the JSON body from PDF safely
+        String jobTitle = incomingPayload.getJobTitle();
+        String resumeText = incomingPayload.getResumeText();
+
+        if (jobTitle == null || jobTitle.trim().isEmpty()){
+            throw new IllegalArgumentException("Job title cannot be null or empty.");
+        }
+
+
         // Check if job profile already exists
         Optional<JobProfile> cachedJobProfile = jobProfileRepository.findByJobTitleIgnoreCase(jobTitle);
 

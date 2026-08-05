@@ -4,6 +4,7 @@ import { Group, Container, ActionIcon, useMantineTheme, Autocomplete } from '@ma
 import { IconArrowRight, IconSearch } from '@tabler/icons-react';
 import ProfileCard from './ProfileCard';
 import HistoryHub from './HistoryHub';
+import { ResumeDropzone } from './Dropzone';
 
 interface JobData {
   jobTitle: string;
@@ -22,7 +23,9 @@ function JobProfile() {
   const theme = useMantineTheme();
   const [historyOptions, setHistoryOptions] = useState<string[]>([]);
   const [allProfiles, setAllProfiles] = useState<JobData[]>([]);
+  const [uploadedResumeText, setUploadedResumeText] = useState<string>('');
 
+  // Pass compatibility score and ATS pass probability score to get a color scale for badges
   function getScoreColor(incomingScore: any): string {
     const score = Number(incomingScore);
     //console.log(incomingScore)
@@ -33,6 +36,7 @@ function JobProfile() {
     if (score <= 75) return 'lime';
     return 'green';
   }
+
   useEffect(() => {
     const fetchSearchHistory = async () => {
       try {
@@ -59,12 +63,27 @@ function JobProfile() {
     e.preventDefault();
     if (search.trim() === '') return;
 
+    // Warn user about missing resume upload
+    if (!uploadedResumeText) {
+      setError('Please upload a resume PDF file before running an ATS Scan.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setData(null);
 
     try {
-      const response = await fetch(`http://10.0.1.181:8080/api/match/search?jobTitle=${encodeURIComponent(search)}`);
+      const response = await fetch(`http://10.0.1.181:8080/api/match/search?jobTitle=${encodeURIComponent(search)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jobTitle: search,
+          resumeText: uploadedResumeText,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -96,6 +115,7 @@ function JobProfile() {
 
   return (
     <Container size='sm' style={{ paddingTop: '20px' }}>
+      <ResumeDropzone onTextExtracted={setUploadedResumeText} />
       <form onSubmit={handleSearch}>
         <Group align='center' mb='xl'>
           <Autocomplete
@@ -119,6 +139,7 @@ function JobProfile() {
       </form>
 
       {data && <ProfileCard profile={data} getScoreColor={getScoreColor} />}
+
       <HistoryHub profiles={allProfiles} getScoreColor={getScoreColor} />
     </Container>
   );
