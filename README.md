@@ -6,7 +6,7 @@ A full-stack, distributed microservice architecture that analyzes technical job 
 
 ## 🏗️ System Architecture & Data Flow
 
-The application is structured as a standalone **Monorepo** consisting of three decoupled layers communicating over structured network boundaries:
+The application is structured as a standalone **Monorepo** consisting of three layers communicating over structured network boundaries:
 
 ```text
 [React Frontend] (TypeScript / Mantine v7)
@@ -30,31 +30,11 @@ The application is structured as a standalone **Monorepo** consisting of three d
 6. **Persistence**: Python hands the structured object back to Java. The gateway maps the properties, executes fail-safe `Long` parsing procedures, saves the record to the SQL table layout (`jobProfileRepository.save()`), and pushes the payload to React.
 
 ---
-
 ## 🗺️ System Development Roadmap
-
-To systematically transition this prototype from an advanced local sandbox into an elite, enterprise-grade cloud asset, development is executed along a strict 4-phase milestone path:
-
 ### 🟩 Phase 1: Interactive Skill Checklist (Completed ✅)
-
-- **Goal:** Transform static informational keyword displays into interactive UI action components.
-- **Execution:** Migrate standard Mantine `Badge` displays to self-contained dynamic `Chip` matrices. Build React string-array state filters allowing users to physically check off keywords as they tailormake their experience bullets, smoothly morphing the UI from an orange warning alert into a green milestone.
-
 ### 🟨 Phase 2: Historical Search Dashboard Analytics (Completed ✅)
-
-- **Goal:** Shift from single-card rendering views into a comprehensive career overview matrix.
-- **Execution:** Create an independent "Analytics Hub" view tab leveraging the core Java `/cached` list data stream array. Build custom layout rows that present all past lookups side-by-side, automatically sorting queries from highest compatibility to lowest so candidates can instantly spot where they align best.
-
 ### 🟧 Phase 3: Live File Upload Processing (Deep AI Integration) (In Progress 🛠️)
-
-- **Goal:** Upgrade the intelligence core from general market analysis to hyper-personalized profile parsing.
-- **Execution:** Integrate an advanced frontend file stream pad using Mantine's `<Dropzone>` module. Candidates drag and drop their raw `resume.pdf` or `resume.txt` file, allowing React to capture the file buffers and pass dual payloads (`jobTitle` + `resumeText`) across the Java bridge. Refactor Gemini's system instructions to run a defensive cross-examination between the candidate's exact phrasing and standard compliance metrics.
-
-### 🟥 Phase 4: Serverless Cloud Production Deployment
-
-- **Goal:** Migrate local background loop pipelines onto globally accessible web hosting servers.
-- **Execution:** Deploy the React view layers to **Vercel** or **Netlify** with native GitHub CI/CD hookups. Deploy the Python FastAPI and Java Spring Boot engines to highly scalable containers on **Render** or **Railway**. Provision an external serverless **Neon Cloud PostgreSQL** database cluster, swapping our embedded H2 settings for permanent, multi-tenant cloud storage engines.
-
+### 🟥 Phase 4: Production Deployment
 ---
 
 ## 🛠️ Tech Stack & Core Infrastructure
