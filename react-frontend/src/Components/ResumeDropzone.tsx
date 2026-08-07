@@ -4,7 +4,8 @@ import { Button, Group, Stack, Text } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import * as pdfjslib from 'pdfjs-dist';
 
-pdfjslib.GlobalWorkerOptions.workerSrc = `https://cloudflare.com${pdfjslib.version}/pdf.worker.min.mjs`;
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+pdfjslib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 interface ResumeDropzoneProps {
   onTextExtracted: (text: string) => void;
@@ -31,8 +32,11 @@ export function ResumeDropzone({ onTextExtracted }: ResumeDropzoneProps) {
         const textContent = await page.getTextContent();
         const pageText = textContent.items.map((item: any) => item.str).join(' ');
         fullText += pageText + '\n';
-        onTextExtracted(fullText);
       }
+
+      // Clean text for Java
+      const cleanText = fullText.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
+      onTextExtracted(cleanText);
     } catch (err) {
       console.error('Failed to parse text vectors from uploaded PDF:', err);
     } finally {

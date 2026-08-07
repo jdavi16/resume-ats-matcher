@@ -4,7 +4,7 @@ import { Group, Container, ActionIcon, useMantineTheme, Autocomplete } from '@ma
 import { IconArrowRight, IconSearch } from '@tabler/icons-react';
 import ProfileCard from './ProfileCard';
 import HistoryHub from './HistoryHub';
-import { ResumeDropzone } from './Dropzone';
+import { ResumeDropzone } from './ResumeDropzone';
 
 interface JobData {
   jobTitle: string;
