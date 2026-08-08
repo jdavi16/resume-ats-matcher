@@ -13,10 +13,15 @@
     "@mantine/core": "^9.5.0",
     "@mantine/dropzone": "^9.5.1",
     "@mantine/hooks": "^9.5.0",
+    "@phosphor-icons/react": "^2.1.10",
     "@tabler/icons-react": "^3.46.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "daisyui": "^5.7.16",
     "pdfjs-dist": "^6.2.108",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3",
+    "theme-change": "^3.0.4"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
