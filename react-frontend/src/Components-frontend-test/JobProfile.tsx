@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-
-import { Group, Container, ActionIcon, useMantineTheme, Autocomplete } from '@mantine/core';
-import { IconArrowRight, IconSearch } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRightIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import ProfileCard from './ProfileCard';
 import HistoryHub from './HistoryHub';
 import { ResumeDropzone } from './ResumeDropzone';
@@ -20,7 +18,6 @@ function JobProfile() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const theme = useMantineTheme();
   const [historyOptions, setHistoryOptions] = useState<string[]>([]);
   const [allProfiles, setAllProfiles] = useState<JobData[]>([]);
   const [uploadedResumeText, setUploadedResumeText] = useState<string>('');
@@ -30,10 +27,9 @@ function JobProfile() {
     const score = Number(incomingScore);
     //console.log(incomingScore)
     //console.log(score)
-    if (score < 25) return 'red';
-    if (score < 50) return 'orange';
-    if (score === 50) return 'yellow';
-    if (score <= 75) return 'lime';
+    if (score <= 25) return 'badge-error';
+    if (score > 25 && score < 75) return 'badge-warning';
+    if (score >= 75) return 'badge-success';
     return 'green';
   }
 
@@ -114,34 +110,55 @@ function JobProfile() {
   };
 
   return (
-    <Container size='sm' style={{ paddingTop: '20px' }}>
-      <ResumeDropzone onTextExtracted={setUploadedResumeText} />
+    <div className='w-full max-w-screen-sm mx-auto pt-5 px-4'>
+      <div className='mb-10'>
+        <ResumeDropzone onTextExtracted={setUploadedResumeText} />
+      </div>
+
       <form onSubmit={handleSearch}>
-        <Group align='center' mb='xl'>
-          <Autocomplete
-            value={search}
-            onChange={setSearch}
-            placeholder='Search Job Titles...'
-            size='md'
-            data={historyOptions}
-            radius='xl'
-            error={error}
-            rightSectionWidth={42}
-            leftSection={<IconSearch size={18} stroke={1.5} />}
-            style={{ flex: 1 }}
-            rightSection={
-              <ActionIcon size={32} radius='xl' color={theme.primaryColor} variant='filled' aria-label='Search' loading={loading} type='submit'>
-                <IconArrowRight size={18} stroke={1.5} />
-              </ActionIcon>
-            }
-          />
-        </Group>
+        <div className='flex flex-col gap-2'>
+          <div className='relative w-full'>
+            <div className='absolute inset-y-0 left-4 flex items-center pointer-events-none z-10'>
+              <MagnifyingGlassIcon className='text-gray-500 h-5 w-5' />
+            </div>
+            <input
+              type='text'
+              list='job-history-options'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder='Search Job Titles...'
+              className={`input input-bordered border-gray-700 input-md w-full rounded-full bg-base-100 pl-10 pr-12 shadow-sm focus:outline-none focus:border-primary
+                ${error ? 'input-error bg-error/5' : ''}[&-webkit-calender-picker-indicator]:hidden [*::-webkit-calendar-picker-indicator]:hidden`}
+              disabled={loading}
+            />
+            <datalist id='job-history-option'>
+              {historyOptions.map((option, idx) => (
+                <option key={idx} value={option} />
+              ))}
+            </datalist>
+            <div className='absolute inset-y-0 right-1 flex items-center z-10'>
+              <button type='submit' disabled={loading || search.trim() === ''} className='btn btn-primary btn-circle btn-sm shadow-sm'>
+                {loading ? <span className='loading loading-spinner loading-xs'></span> : <ArrowRightIcon className='h-5 w-5' />}
+              </button>
+            </div>
+          </div>
+
+          {error && (
+            <div className='label pt-0 px-4'>
+              <span className='label-text-alt text-error font-medium'>{error}</span>
+            </div>
+          )}
+        </div>
       </form>
 
-      {data && <ProfileCard profile={data} getScoreColor={getScoreColor} />}
+      {data && (
+        <div className='mb-8'>
+          <ProfileCard profile={data} getScoreColor={getScoreColor} />
+        </div>
+      )}
 
       <HistoryHub profiles={allProfiles} getScoreColor={getScoreColor} />
-    </Container>
+    </div>
   );
 }
 

@@ -1,8 +1,12 @@
 import React from 'react';
-import '@mantine/dropzone/styles.css';
+//import '@mantine/core/styles.css';
+//import '@mantine/dropzone/styles.css';
 import { MantineProvider } from '@mantine/core';
 import Header from './Components-frontend-test/Header';
 import JobProfile from './Components-frontend-test/JobProfile';
+
+//import Header from './Components/Header';
+//import JobProfile from './Components/JobProfile';
 import './App.css';
 
 const App: React.FC = () => {

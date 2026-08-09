@@ -1,4 +1,3 @@
-import { Divider, SimpleGrid, Stack } from '@mantine/core';
 import ProfileCard from './ProfileCard';
 import type { JobProfileData } from './ProfileCard';
 
@@ -14,15 +13,14 @@ const HistoryHub: React.FC<HistoryHubProps> = ({ profiles, getScoreColor }) => {
   const sortedProfiles = [...profiles].sort((a, b) => b.compatibilityScore - a.compatibilityScore);
 
   return (
-    <Stack gap='md' style={{ marginTop: '40px' }}>
-      <Divider label='Historical Analytics Hub' labelPosition='center' />
-
-      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing='md'>
+    <div className='flex flex-col  gap-6 mt-10 w-full select-none'>
+      <div className='divider font-bold divider-primary text-lg text-gray-300/50 uppercase tracking-wider'>Historical Analytics Hub</div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full'>
         {sortedProfiles.map((profile, idx) => (
           <ProfileCard key={idx} profile={profile} getScoreColor={getScoreColor} compact={true} />
         ))}
-      </SimpleGrid>
-    </Stack>
+      </div>
+    </div>
   );
 };
 

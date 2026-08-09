@@ -1,6 +1,8 @@
 @import 'tailwindcss';
+
+/* 1. Initialize daisyUI 5 with your chosen active themes */
 @plugin "daisyui" {
   themes:
     light --default,
-    dracula --dark;
+    dark --prefersdark;
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Chip, Title, Group, Badge, Divider, Stack, Text } from '@mantine/core';
 
 export interface JobProfileData {
   jobTitle: string;
@@ -27,94 +26,65 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, getScoreColor, compa
   // Compact View
   if (compact) {
     return (
-      <Card withBorder shadow='xs' padding='md' radius='md'>
-        <Stack gap='xs'>
-          <Title order={4} style={{ fontSize: '16px' }} lineClamp={1}>
-            {profile.jobTitle}
-          </Title>
-          <Group gap='xs'>
-            <Badge size='sm' variant='outline' color='blue'>
-              {profile.experienceRequired} Years Exp
-            </Badge>
-            <Badge size='sm' color={getScoreColor(profile.compatibilityScore)}>
-              Match: {profile.compatibilityScore}%
-            </Badge>
-            <Badge size='sm' color={getScoreColor(profile.atsPassProbability)}>
-              ATS: {profile.atsPassProbability}%
-            </Badge>
-          </Group>
-          <Text size='xs' color='dimmed' lineClamp={2} style={{ fontStyle: 'italic' }}>
-            {profile.optimizationAdvice}
-          </Text>
-        </Stack>
-      </Card>
+      <div className='card bg-base-100 border border-gray-700 shadow-sm rounded-lg'>
+        <div className='card-body p-4 flex flex-col gap-2'>
+          <h4 className='text-base font-bold text-base-content truncate'>{profile.jobTitle}</h4>
+          <div className='flex flex-nowrap gap-2 items-center overflow-x-auto pb-1'>
+            <span className='badge badge-sm badge-primary rounded-full font-small shrink-0'>{profile.experienceRequired} Years Exp</span>
+            <span className={`badge badge-sm rounded-full font-medium border-none bg-opacity-15 shrink-0 ${getScoreColor(profile.compatibilityScore)}`}>Comp: {profile.compatibilityScore}%</span>
+            <span className={`badge badge-sm rounded-full font-medium border-none bg-opacity-15 shrink-0 ${getScoreColor(profile.atsPassProbability)}`}>ATS: {profile.atsPassProbability}%</span>
+          </div>
+          <p className='text-xs text-base-content/60 italic line-clamp-2 mt-1'>{profile.optimizationAdvice}</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card style={{ marginTop: '20px', border: '1px solid #ccc', padding: '30px', borderRadius: '8px' }}>
-      <Card.Section style={{ padding: '10px', justifyContent: 'center', display: 'flex' }}>
-        <Stack display='flex' justify='center' align='center'>
-          <Title order={1} textWrap='wrap'>
-            Job Profile
-          </Title>
-          <Title order={2} textWrap='wrap'>
+    <div className='w-full  flex justify-center mt-10'>
+      <div className='card card-border border-gray-700 bg-base-200 p-6 rounded-xl shadow-xl w-full'>
+        {/** Top Section */}
+        <div className='flex flex-col items-center text-center gap-2 mb-6'>
+          <h1 className='text-3xl font-black text-base-content wrap-break-word whitespace-normal leading-snug'>Job Profile</h1>
+          <h2 className='text-2xl font-normal text-base-content wrap-break-word whitespace-normal leading-snug'>
             <strong>Job Title:</strong> {profile.jobTitle}
-          </Title>
-        </Stack>
-      </Card.Section>
-      <Group display='flex' justify='center' style={{ margin: '15px' }}>
-        <Badge size='xl' variant='outline' color='blue'>
-          {profile.experienceRequired} years
-        </Badge>
-        <Badge size='xl' color={getScoreColor(profile.compatibilityScore)}>
-          Compatibility: {profile.compatibilityScore}%
-        </Badge>
-        <Badge size='xl' color={getScoreColor(profile.atsPassProbability)}>
-          ATS Match: {profile.atsPassProbability}%
-        </Badge>
-      </Group>
-      <Stack gap='xs' align='center' style={{ margin: '15px 0', width: '100%' }}>
-        <Text fw={700} size='sm' color='dimmed'>
-          Missing ATS Keywords
-        </Text>
-        <Group justify='center' gap='xs'>
-          {profile.missingKeywords.split(',').map((keyword, index) => {
-            const trimmedKeyword = keyword.trim();
-            const isChecked = checkedKeywords.includes(trimmedKeyword);
+          </h2>
+        </div>
 
-            return (
-              <Chip
-                key={index}
-                checked={isChecked}
-                variant={isChecked ? 'filled' : 'outline'}
-                size='md'
-                onChange={() => {
-                  setCheckedKeywords((prev) => (prev.includes(trimmedKeyword) ? prev.filter((item) => item !== trimmedKeyword) : [...prev, trimmedKeyword]));
-                }}
-                styles={{
-                  label: {
-                    borderColor: isChecked ? 'var(--mantine-color-green-filled)' : 'var(--mantine-color-orange-outline)',
-                    color: isChecked ? 'white' : 'var(--mantine-color-orange-text)',
-                    backgroundColor: isChecked ? 'var(--mantine-color-green-filled)' : 'transparent',
-                    transition: 'all 0.2s ease',
-                  },
-                }}>
-                {trimmedKeyword}
-              </Chip>
-            );
-          })}
-        </Group>
-      </Stack>
+        {/** Badges Row */}
+        <div className='flex flex-wrap justify-center mb-6 gap-3'>
+          <div className='badge badge-lg badge-primary rounded-full py-3 px-4 font-medium'>{profile.experienceRequired} years</div>
+          <div className={`badge badge-lg rounded-full py-3 px-4 font-medium ${getScoreColor(profile.compatibilityScore)}`}>Compatibility: {profile.compatibilityScore}%</div>
+          <div className={`badge badge-lg rounded-full py-3 px-4 font-medium ${getScoreColor(profile.atsPassProbability)}`}>ATS Match: {profile.atsPassProbability}%</div>
+        </div>
 
-      <Divider my='md' />
+        {/**Missing Keywords */}
+        <div className='flex flex-col w-full items-center text-center gap-4 mb-6'>
+          <div className='divider text-sm font-bold text-base-content/60 tracking-wide uppercase'>Missing ATS Keywords</div>
+          <div className='flex flex-wrap justify-center gap-1'>
+            {profile.missingKeywords.split(',').map((keyword, index) => {
+              const trimmedKeyword = keyword.trim();
+              const isChecked = checkedKeywords.includes(trimmedKeyword);
+              return (
+                <button
+                  key={index}
+                  type='button'
+                  onClick={() => setCheckedKeywords((prev) => (prev.includes(trimmedKeyword) ? prev.filter((item) => item !== trimmedKeyword) : [...prev, trimmedKeyword]))}
+                  className={`badge badge-lg rounded-full cursor-pointer select-none font-medium px-4 py-3 border transition-all duration-200
+                  ${isChecked ? 'bg-success border-success text-success-content shadow-sm' : 'bg-transparent border-primary text-primary hover:bg-primary/5'}`}>
+                  {trimmedKeyword}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-      <Card.Section>
-        <Title order={3} textWrap='wrap' style={{ textAlign: 'center', fontStyle: 'italic', padding: '0 15px' }} fw={500}>
-          "{profile.optimizationAdvice}"
-        </Title>
-      </Card.Section>
-    </Card>
+        <div className='flex flex-col items-center w-full'>
+          <div className='divider w-full font-bold text-sm text-base-content/50 uppercase tracking-wider'>Optimization Advice</div>
+          <p className='text-lg font-medium italic text-center text-base-content/80 max-w-xl px-4 mt-2 leading-relaxed'>"{profile.optimizationAdvice}"</p>
+        </div>
+      </div>
+    </div>
   );
 };
 
